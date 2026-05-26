@@ -15,7 +15,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableJpaRepositories(basePackages = {"com.example.demo.repository"})
 
 public class DemoApplication {
-
+// themsuaxoa
 	public static void main(String[] args) {
 
 		SpringApplication.run(DemoApplication.class, args);
