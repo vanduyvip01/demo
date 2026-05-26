@@ -39,7 +39,7 @@ public class AuthController {
             String token = JwtUtils.generateToken(username);
             return ResponseEntity.ok(ResponseUtils.success(
                             200,
-                            "Login success",
+                            "Login successfully",
                             token
                     )
             );
