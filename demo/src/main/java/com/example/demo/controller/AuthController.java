@@ -57,8 +57,6 @@ public class AuthController {
         session.invalidate();
 
         return ResponseEntity.ok(ResponseUtils.success(
-                        200,
-                        "Logout successfull",
-                        null));
+                        200, "Logout successfuly",null));
     }
 }
