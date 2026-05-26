@@ -58,7 +58,7 @@ public class AuthController {
 
         return ResponseEntity.ok(ResponseUtils.success(
                         200,
-                        "Logout success",
+                        "Logout successfuly",
                         null));
     }
 }
