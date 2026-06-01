@@ -42,11 +42,16 @@ public class UserController {
     // GET API
     // 200 + response body json
     @GetMapping("/{id}")
-    public User get(
-            @PathVariable
-            Long id
-    ) {
-        return userService.getUserById(id);
+    public ResponseEntity<BaseResponse<User>>
+    get(@PathVariable Long id){
+
+        User user = userService.getUserById(id);
+
+        return ResponseEntity.ok(ResponseUtils.success(
+                        200,
+                        "Get user success",
+                        user));
+
     }
 
     // viết request tạo
