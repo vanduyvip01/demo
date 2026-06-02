@@ -4,55 +4,66 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-
 public enum ErrorCode {
 
-    // USER
+    SUCCESS(
+            20000,
+            "SUCCESS",
+            "Success",
+            HttpStatus.OK
+    ),
 
     USER_NOT_FOUND(
-            1001,
-            HttpStatus.NOT_FOUND,
-            "USER_NOT_FOUND"
-    ),
-
-    USER_ALREADY_EXISTS(
-            1002,
-            HttpStatus.BAD_REQUEST,
-            "USER_ALREADY_EXISTS"
-    ),
-    // SYSTEM
-
-    INTERNAL_SERVER_ERROR(
-            9999,
-            HttpStatus.INTERNAL_SERVER_ERROR,
-            "INTERNAL_SERVER_ERROR"
+            40400,
+            "USER_NOT_FOUND",
+            "User not found",
+            HttpStatus.NOT_FOUND
     ),
 
     VALIDATION_ERROR(
-            4000,
-            HttpStatus.BAD_REQUEST,
-            "VALIDATION_ERROR"
+            40000,
+            "VALIDATION_ERROR",
+            "Validation failed",
+            HttpStatus.BAD_REQUEST
+    ),
+
+    UNAUTHORIZED(
+            40100,
+            "UNAUTHORIZED",
+            "Invalid username or password",
+            HttpStatus.UNAUTHORIZED
+    ),
+
+    INTERNAL_SERVER_ERROR(
+            50000,
+            "INTERNAL_SERVER_ERROR",
+            "Internal server error",
+            HttpStatus.INTERNAL_SERVER_ERROR
     );
 
     private final int code;
 
+    private final String error;
+
+    private final String message;
+
     private final HttpStatus status;
 
-    private final String messageKey;
-
     ErrorCode(
-
             int code,
-            HttpStatus status,
-            String messageKey
+            String error,
+            String message,
+            HttpStatus status
     ) {
-
         this.code = code;
-
+        this.error = error;
+        this.message = message;
         this.status = status;
-
-        this.messageKey = messageKey;
-
     }
-
 }
+
+
+
+
+
+

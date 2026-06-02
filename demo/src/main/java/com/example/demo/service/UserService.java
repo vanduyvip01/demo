@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
+import com.example.demo.ErrorCodeEnum.ErrorCode;
 import com.example.demo.dto.requests.CreateUserRequest;
 import com.example.demo.dto.requests.UpdateUserRequest;
 import com.example.demo.entity.User;
+import com.example.demo.exception.BusinessException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 
 public class UserService {
+
 
     private final UserRepository userRepository;
 
@@ -52,7 +55,8 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
     }
     @Transactional
     public void updateUser(
@@ -117,4 +121,5 @@ public class UserService {
         result.put("users", users);
         return result;
     }
+
 }

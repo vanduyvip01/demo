@@ -5,9 +5,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
+
 public class BaseResponse<T> {
 
     private int code;
+
+    private String error;
 
     private String message;
 

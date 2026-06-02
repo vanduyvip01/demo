@@ -25,3 +25,9 @@ eureka:
       defaultZone:
 
         http://localhost:8761/eureka
+      server:
+        servlet:
+          encoding:
+            charset: UTF-8
+            enabled: true
+            force: true

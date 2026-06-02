@@ -1,30 +1,34 @@
 package com.example.demo.dto.requests;
 
-import com.example.demo.enumtype.Gender;
-import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+import com.example.demo.enumtype.Gender;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+import lombok.Data;
+
+@Data
 public class CreateUserRequest {
 
-    @NotBlank(message = "Name cannot be empty")
+    @NotBlank(message = "NAME_REQUIRED")
     private String name;
 
-    @Min(value = 1, message = "Age must be greater than 0")
+    @Min(value = 1, message = "AGE_INVALID")
     private int age;
 
-    @NotNull(message = "Gender is required")
+    @NotNull(message = "GENDER_REQUIRED")
     private Gender gender;
 
-    @Email(message = "Invalid email")
-    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "EMAIL_INVALID")
+    @NotBlank(message = "EMAIL_REQUIRED")
     private String email;
 
     @Pattern(
             regexp = "^0[0-9]{9}$",
-            message = "Phone number invalid"
-    )
+            message = "PHONE_INVALID")
     private String phone;
 }
+

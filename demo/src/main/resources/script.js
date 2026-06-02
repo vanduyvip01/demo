@@ -1,230 +1,202 @@
-// ======================
-// CHECK LOGIN
-// ======================
+const token = localStorage.getItem("token");
 
-const token =
-localStorage.getItem("token");
+const currentPage = window.location.pathname;
 
-if (
-!token &&
-!window.location.pathname.includes("login")){
-
-window.location.href ="index.html";
-
+if (!token && currentPage.includes("user")) {
+    window.location.href = "index.html";
 }
-
-// ======================
-// LOGIN
-// ======================
 
 const loginForm = document.getElementById("loginForm");
-
 const message = document.getElementById("message");
 
+if (loginForm) {
 
-if(loginForm){
+    loginForm.addEventListener("submit", async function (event) {
 
-loginForm.addEventListener("submit",async function(event){
+        event.preventDefault();
 
-event.preventDefault();
+        const username =
+            document.getElementById("username").value;
 
-const username =
-document.getElementById("username").value;
+        const password =
+            document.getElementById("password").value;
 
-const password =
-document.getElementById("password").value;
+        try {
 
-try{
+            const response = await fetch(
+                "http://localhost:8080/auth/login",
+                {
+                    method: "POST",
 
-const response =
-await fetch(
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
 
-"http://localhost:8080/auth/login",
+                    body:
+                        "username=" +
+                        encodeURIComponent(username) +
+                        "&password=" +
+                        encodeURIComponent(password)
+                }
+            );
 
-{
+            const result = await response.json();
 
-method:"POST",
+            console.log("LOGIN RESPONSE =", result);
 
-headers:{
+            if (response.ok) {
 
-"Content-Type":
-"application/x-www-form-urlencoded"
+                localStorage.setItem(
+                    "token",
+                    result.data
+                );
 
-},
+                message.style.color = "green";
+                message.innerText = result.message;
 
-body:
+                setTimeout(function () {
+                    window.location.href = "user.html";
+                }, 500);
 
-`username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+            } else {
 
-}
+                message.style.color = "red";
+                message.innerText = result.message;
 
-);
+            }
 
-const data =await response.json();
+        } catch (error) {
 
-if(response.ok){
+            console.error(error);
 
-localStorage.setItem("token",data.data);
+            message.style.color = "red";
+            message.innerText = "Server Error";
 
-message.style.color ="green";
+        }
 
-message.innerText =data.message;
-
-setTimeout(()=>{
-
-window.location.href ="user.html";},500);
-
-}
-
-else{
-
-message.style.color ="red";
-
-message.innerText =data.message;
-}
-}
-catch(error){
-
-console.log(error);
-
-message.innerText ="Server Error";
-}
-}
-);
+    });
 
 }
 
-// ======================
-// LOAD USERS + STATS
-// ======================
+async function loadStats() {
 
-async function loadStats(){
+    try {
 
-try{const response =await fetch("http://localhost:8080/users/stats",
+        const response = await fetch(
+            "http://localhost:8080/users/stats",
+            {
+                method: "GET",
 
-{
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+        );
 
-method:"GET",headers:{
+        const result = await response.json();
 
-Authorization:`Bearer ${token}`
+        console.log("RESULT =", result);
+        console.log("DATA =", result.data);
 
-}
+        if (!response.ok) {
 
-}
-);
-const result =await response.json();
+            alert(result.message);
+            return;
 
-console.log("FULL RESPONSE",result);
+        }
 
+        const data = result.data;
 
-// TOTAL USER
+        if (!data) {
+            return;
+        }
 
-const total =document.getElementById("totalUsers");
+        const total =
+            document.getElementById("totalUsers");
 
-if(total){total.innerText =result.totalUsers;
+        if (total) {
+            total.innerText = data.totalUsers;
+        }
 
-}
+        const userList =
+            document.getElementById("userList");
 
-// USER LIST
+        if (userList) {
 
-const userList =document.getElementById("userList");
+            let html = "";
 
-if(userList){
-let html ="";
-result.users.forEach(user=>{html +=`
+            data.users.forEach(function (user) {
 
-<div class="user-card">
+                html +=
+                    "<div class='user-card'>" +
+                    "<h3>" + user.name + "</h3>" +
+                    "<p>Age: " + user.age + "</p>" +
+                    "<p>Email: " + user.email + "</p>" +
+                    "<p>Phone: " + user.phone + "</p>" +
+                    "<p>Gender: " + user.gender + "</p>" +
+                    "<button class='delete-btn' onclick='deleteUser(" + user.id + ")'>Delete</button>" +
+                    "</div>";
 
-<h3>
+            });
 
-${user.name}
+            userList.innerHTML = html;
 
-</h3>
+        }
 
-<p>
-Age:
-${user.age}
-</p>
+    } catch (error) {
 
-<p>
-Email:
-${user.email}
-</p>
+        console.error("LOAD ERROR =", error);
 
-<p>
-Phone:
-${user.phone}
-</p>
-
-<p>
-Gender:
-${user.gender}
-</p>
-
-<button
-
-class="delete-btn"
-
-onclick="deleteUser(${user.id})"
-
->
-
-Delete
-
-</button>
-
-</div>
-`;
-
-}
-);
-userList.innerHTML =html;
-}
+    }
 
 }
 
-catch(error){
-console.log("LOAD ERROR",error);
+async function deleteUser(id) {
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:8080/users/" + id,
+            {
+                method: "DELETE",
+
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        console.log("DELETE RESPONSE =", result);
+
+        if (response.ok) {
+
+            loadStats();
+
+        } else {
+
+            alert(result.message);
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
 
 }
-}
-// ======================
-// DELETE USER
-// ======================
-async function deleteUser(id){try{
-await fetch(`http://localhost:8080/users/${id}`,{
 
-method:"DELETE",
+function logout() {
 
-headers:{
+    localStorage.removeItem("token");
 
-Authorization:`Bearer ${token}`
-}
-}
-);
-loadStats();
-}
-catch(error){console.log(error);
-}
+    window.location.href = "index.html";
+
 }
 
-
-
-// ======================
-// LOGOUT
-// ======================
-
-function logout(){
-
-localStorage.removeItem("token");
-window.location.href ="index.html";
-}
-
-// ======================
-// AUTO LOAD
-// ======================
-
-if(window.location.pathname.includes("user")){
-loadStats();
-
+if (currentPage.includes("user")) {
+    loadStats();
 }
