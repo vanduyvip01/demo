@@ -18,8 +18,7 @@ public class ResponseUtils {
 
     ) {
 
-        BaseResponse<T> response =
-                new BaseResponse<>();
+        BaseResponse<T> response = new BaseResponse<>();
 
         response.setCode(code);
 
@@ -27,9 +26,7 @@ public class ResponseUtils {
 
         response.setMessage(message);
 
-        response.setRequestId(
-                UUID.randomUUID().toString()
-        );
+        response.setRequestId(UUID.randomUUID().toString());
 
         response.setData(data);
 
@@ -44,8 +41,7 @@ public class ResponseUtils {
             T data
     ) {
 
-        BaseResponse<T> response =
-                new BaseResponse<>();
+        BaseResponse<T> response = new BaseResponse<>();
 
         response.setCode(20000);
 
@@ -53,9 +49,7 @@ public class ResponseUtils {
 
         response.setMessage("Success");
 
-        response.setRequestId(
-                UUID.randomUUID().toString()
-        );
+        response.setRequestId(UUID.randomUUID().toString());
 
         response.setData(data);
 
@@ -76,8 +70,7 @@ public class ResponseUtils {
 
     ) {
 
-        BaseResponse<T> response =
-                new BaseResponse<>();
+        BaseResponse<T> response = new BaseResponse<>();
 
         response.setCode(code);
 
@@ -85,9 +78,7 @@ public class ResponseUtils {
 
         response.setMessage(message);
 
-        response.setRequestId(
-                UUID.randomUUID().toString()
-        );
+        response.setRequestId(UUID.randomUUID().toString());
 
         response.setData(null);
 

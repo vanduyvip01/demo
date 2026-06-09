@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class UserService {
 
-
     private final UserRepository userRepository;
 
     public void testLazy(){
@@ -121,5 +120,6 @@ public class UserService {
         result.put("users", users);
         return result;
     }
+
 
 }

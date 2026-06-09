@@ -21,7 +21,6 @@ public class MessageConfig {
     @Bean
     public LocaleResolver localeResolver() {
         AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-        // Chú ý biến ở dưới này phải giống hệt biến ở trên
         localeResolver.setDefaultLocale(new Locale("vi"));
         return localeResolver;
     }
