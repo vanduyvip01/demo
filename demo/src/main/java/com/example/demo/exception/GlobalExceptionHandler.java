@@ -24,9 +24,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<BaseResponse<Object>> handleBusinessException(BusinessException ex) {
         ErrorCode errorCode = ex.getErrorCode();
         String key = errorCode.name(); // Lấy "USER_NOT_FOUND", "INTERNAL_SERVER_ERROR",...
-
         String translatedMessage = getLocalizedMessage(key, errorCode.getMessage());
-
         return ResponseEntity
                 .status(errorCode.getStatus())
                 .body(ResponseUtils.error(
@@ -51,7 +49,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<BaseResponse<Object>> handleException(Exception ex) {
         ex.printStackTrace();
         String translatedMessage = getLocalizedMessage("INTERNAL_SERVER_ERROR", "Internal server error");
-
         return ResponseEntity.internalServerError().body(
                 ResponseUtils.error(50000, "INTERNAL_SERVER_ERROR", translatedMessage)
         );

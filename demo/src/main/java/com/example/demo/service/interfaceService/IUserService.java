@@ -8,6 +8,5 @@ import java.util.List;
 public interface IUserService {
 
     List<UserResponse> getAllUsers();
-
     UserResponse createUser(User user);
 }

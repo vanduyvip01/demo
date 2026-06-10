@@ -9,17 +9,12 @@ import java.util.Date;
 
 public class JwtUtils {
 
-    // SECRET KEY PHẢI >= 32 ký tự cho HS256
     private static final String SECRET = "mysecretkeymysecretkeymysecretkey123456";
 
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
-    // 1 giờ
     private static final long EXPIRATION = 1000 * 60 * 60;
 
-    /**
-     * CREATE TOKEN
-     */
     public static String generateToken(String username) {
 
         Date now = new Date();
@@ -32,9 +27,6 @@ public class JwtUtils {
                 .compact();
     }
 
-    /**
-     * VALIDATE TOKEN
-     */
     public static boolean validateToken(String token) {
 
         try {
@@ -58,9 +50,6 @@ public class JwtUtils {
         return false;
     }
 
-    /**
-     * GET CLAIMS
-     */
     public static Claims getClaims(String token) {
 
         return Jwts.parserBuilder()
@@ -69,9 +58,7 @@ public class JwtUtils {
                 .parseClaimsJws(token)
                 .getBody();
     }
-    /**
-     * GET USERNAME
-     */
+
     public static String getUsername(String token) {
         return getClaims(token).getSubject();
     }

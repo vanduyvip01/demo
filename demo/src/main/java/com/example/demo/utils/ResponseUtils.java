@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public class ResponseUtils {
 
-    // OLD VERSION
 
     public static <T> BaseResponse<T> success(
 
@@ -33,10 +32,6 @@ public class ResponseUtils {
         return response;
     }
 
-    // =========================
-    // NEW VERSION
-    // =========================
-
     public static <T> BaseResponse<T> success(
             T data
     ) {
@@ -56,18 +51,10 @@ public class ResponseUtils {
         return response;
     }
 
-    // =========================
-    // ERROR
-    // =========================
-
     public static <T> BaseResponse<T> error(
-
             int code,
-
             String error,
-
             String message
-
     ) {
 
         BaseResponse<T> response = new BaseResponse<>();

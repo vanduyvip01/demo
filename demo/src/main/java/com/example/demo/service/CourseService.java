@@ -27,7 +27,7 @@ public class CourseService implements ICourseService {
                 .tittle(request.getTittle())
                 .description(request.getDescription())
                 .price(request.getPrice())
-                .status(CourseStatus.DRAFT) // Mặc định là DRAFT khi tạo mới
+                .status(CourseStatus.DRAFT)
                 .build();
 
         Course savedCourse = courseRepository.save(course);
@@ -72,7 +72,6 @@ public class CourseService implements ICourseService {
         courseRepository.deleteById(id);
     }
 
-    // Hàm helper để convert sang DTO trả về
     private CourseResponse mapToResponse(Course course) {
         CourseResponse response = new CourseResponse();
         response.setId(course.getId());

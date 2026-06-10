@@ -16,7 +16,6 @@ public class AuthController {
 
     @GetMapping("/test-login")
     public String login(HttpSession session) {
-
         session.setAttribute("user", "admin");
         return "LOGIN SUCCESS";
     }
@@ -27,17 +26,12 @@ public class AuthController {
             @RequestParam String password
 
     ) {
-
         System.out.println(username);
         System.out.println(password);
 
-        // CHECK ACCOUNT
-
         if (username.equals("admin") && password.equals("123")) {
-
             String token = JwtUtils.generateToken(username);
             return ResponseEntity.ok(ResponseUtils.success(token)
-
             );
         }
         return ResponseEntity.badRequest().body(
@@ -46,17 +40,13 @@ public class AuthController {
                         "LOGIN_FAILED",
                         "Invalid username or password"
                 )
-
         );
     }
 
     @PostMapping("/logout")
     public ResponseEntity<BaseResponse<Object>>
     logout(HttpSession session) {
-
         session.invalidate();
-
-        return ResponseEntity.ok(
-                ResponseUtils.success(null));
+        return ResponseEntity.ok(ResponseUtils.success(null));
     }
 }

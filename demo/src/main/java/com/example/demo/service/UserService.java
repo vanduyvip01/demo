@@ -115,11 +115,8 @@ public class UserService {
 
         List<UserStatsResponse> group = users.stream().collect(Collectors.groupingBy(u-> u.getGender().toString(), Collectors.counting()))
                 .entrySet().stream().map(e-> new UserStatsResponse(e.getKey(), e.getValue())).toList();
-
         result.put("groupByGender", group);
         result.put("users", users);
         return result;
     }
-
-
 }

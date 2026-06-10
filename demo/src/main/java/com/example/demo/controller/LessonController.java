@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.requests.LessonCreateRequest;
 import com.example.demo.dto.requests.LessonUpdateRequest;
 import com.example.demo.dto.response.LessonResponse;
+import com.example.demo.dto.response.PageResponse;
 import com.example.demo.service.LessonService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,21 +23,22 @@ public class LessonController {
         return new ResponseEntity<>(lessonService.createLesson(courseId, request), HttpStatus.CREATED);
     }
     @GetMapping("/{courseId}/lessons")
-    public ResponseEntity<Page<LessonResponse>> getLessonsByCourse(
+    public ResponseEntity<PageResponse<LessonResponse>> getLessonsByCourse(
             @PathVariable Long courseId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(lessonService.getLessonsWithPaging(courseId, page, size));
     }
-    @PutMapping("/{lessonId}")
+    @PutMapping("/lessons/{lessonId}")
     public ResponseEntity<LessonResponse> updateLesson(
             @PathVariable Long lessonId,
             @Valid @RequestBody LessonUpdateRequest request) {
         return ResponseEntity.ok(lessonService.updateLesson(lessonId, request));
     }
-    @DeleteMapping("/{lessonId}")
+    @DeleteMapping("/lessons/{lessonId}")
     public ResponseEntity<Void> deleteLesson(@PathVariable Long lessonId) {
         lessonService.deleteLesson(lessonId);
         return ResponseEntity.noContent().build();
+
     }
 }

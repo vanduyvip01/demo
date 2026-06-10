@@ -6,36 +6,35 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
 
-    SUCCESS(
-            20000,
+    SUCCESS(200,
             "SUCCESS",
             "Success",
             HttpStatus.OK
     ),
 
     USER_NOT_FOUND(
-            40400,
+            404,
             "USER_NOT_FOUND",
             "User not found",
             HttpStatus.NOT_FOUND
     ),
 
     VALIDATION_ERROR(
-            40000,
+            400,
             "VALIDATION_ERROR",
             "Validation failed",
             HttpStatus.BAD_REQUEST
     ),
 
     UNAUTHORIZED(
-            40100,
+            401,
             "UNAUTHORIZED",
             "Invalid username or password",
             HttpStatus.UNAUTHORIZED
     ),
 
     INTERNAL_SERVER_ERROR(
-            50000,
+            500,
             "INTERNAL_SERVER_ERROR",
             "Internal server error",
             HttpStatus.INTERNAL_SERVER_ERROR

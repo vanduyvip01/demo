@@ -26,54 +26,34 @@ public class UserController {
     private final UserService userService;
 
     // GET ALL USERS
-
     @GetMapping
     public ResponseEntity<BaseResponse<List<User>>> getUsers() {
         List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(
-                ResponseUtils.success(users));
+        return ResponseEntity.ok(ResponseUtils.success(users));
     }
 
     // GET USER DETAIL
 
     @GetMapping("/{id}")
-    public ResponseEntity<BaseResponse<User>> getUserDetail(
-            @PathVariable Long id) {
-
+    public ResponseEntity<BaseResponse<User>> getUserDetail(@PathVariable Long id) {
         User user = userService.getUserById(id);
-
-        return ResponseEntity.ok(
-                ResponseUtils.success(user));
+        return ResponseEntity.ok(ResponseUtils.success(user));
     }
 
     // CREATE USER
 
     @PostMapping
     public ResponseEntity<BaseResponse<Void>>
-    createUser(
-            @Valid
-            @RequestBody
-            CreateUserRequest request
-    ) {
+    createUser(@Valid @RequestBody CreateUserRequest request) {
         userService.createUser(request);
-
-        return ResponseEntity.ok(ResponseUtils.success(null
-                )
-        );
+        return ResponseEntity.ok(ResponseUtils.success(null));
     }
 
     // UPDATE USER
 
     @PutMapping("/{id}")
     public ResponseEntity<BaseResponse<Void>>
-    updateUser(
-            @PathVariable Long id,
-            @Valid
-            @RequestBody
-            UpdateUserRequest request
-
-    ) {
-
+    updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request) {
         userService.updateUser(id, request);
         return ResponseEntity.ok(ResponseUtils.success(null));
     }
@@ -83,18 +63,14 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<BaseResponse<Void>>
     deleteUser(@PathVariable Long id) {
-
         userService.deleteUser(id);
-
         return ResponseEntity.ok(ResponseUtils.success(null));
     }
 
     // STATS
-
     @GetMapping("/stats")
     public ResponseEntity<BaseResponse<Map<String,Object>>>
     getStats() {
-
         Map<String,Object> stats = userService.getUserStats();
         return ResponseEntity.ok(ResponseUtils.success(stats));
     }
