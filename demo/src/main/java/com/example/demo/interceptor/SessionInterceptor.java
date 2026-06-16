@@ -14,20 +14,17 @@ public class SessionInterceptor
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        // ALLOW OPTIONS REQUEST
         if (request.getMethod().equals("OPTIONS")) {
             return true;
         }
 
         String uri = request.getRequestURI();
 
-        // ALLOW LOGIN
         if (uri.startsWith("/auth/login")) {
             return true;
         }
         HttpSession session = request.getSession(false);
 
-        // CHECK SESSION
         if (session == null || session.getAttribute("user") == null) {
 
             response.setStatus(401);

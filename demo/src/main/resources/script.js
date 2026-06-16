@@ -10,79 +10,51 @@ const loginForm = document.getElementById("loginForm");
 const message = document.getElementById("message");
 
 if (loginForm) {
-
     loginForm.addEventListener("submit", async function (event) {
-
         event.preventDefault();
-
-        const username =
-            document.getElementById("username").value;
-
-        const password =
-            document.getElementById("password").value;
+        const emailValue = document.getElementById("username").value;
+        const passwordValue = document.getElementById("password").value;
 
         try {
-
-            const response = await fetch(
-                "http://localhost:8080/auth/login",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/x-www-form-urlencoded"
-                    },
-
-                    body:
-                        "username=" +
-                        encodeURIComponent(username) +
-                        "&password=" +
-                        encodeURIComponent(password)
-                }
-            );
+            const response = await fetch("http://localhost:8080/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: emailValue,
+                    password: passwordValue
+                })
+            });
 
             const result = await response.json();
-
             console.log("LOGIN RESPONSE =", result);
 
             if (response.ok) {
-
-                localStorage.setItem(
-                    "token",
-                    result.data
-                );
+                localStorage.setItem("token", result.data);
 
                 message.style.color = "green";
-                message.innerText = result.message;
+                message.innerText = "Đăng nhập thành công!";
 
                 setTimeout(function () {
                     window.location.href = "user.html";
                 }, 500);
 
             } else {
-
                 message.style.color = "red";
-                message.innerText = result.message;
-
+                message.innerText = result.message || "Sai tài khoản hoặc mật khẩu";
             }
 
         } catch (error) {
-
             console.error(error);
-
             message.style.color = "red";
             message.innerText = "Server Error";
-
         }
-
     });
-
 }
 
 async function loadStats() {
-
     try {
-
         const response = await fetch(
             "http://localhost:8080/users/stats",
             {
@@ -118,16 +90,12 @@ async function loadStats() {
         if (total) {
             total.innerText = data.totalUsers;
         }
-
         const userList =
             document.getElementById("userList");
-
         if (userList) {
-
             let html = "";
 
             data.users.forEach(function (user) {
-
                 html +=
                     "<div class='user-card'>" +
                     "<h3>" + user.name + "</h3>" +
@@ -137,30 +105,21 @@ async function loadStats() {
                     "<p>Gender: " + user.gender + "</p>" +
                     "<button class='delete-btn' onclick='deleteUser(" + user.id + ")'>Delete</button>" +
                     "</div>";
-
             });
-
             userList.innerHTML = html;
-
         }
 
     } catch (error) {
-
         console.error("LOAD ERROR =", error);
-
     }
-
 }
 
 async function deleteUser(id) {
-
     try {
-
         const response = await fetch(
             "http://localhost:8080/users/" + id,
             {
                 method: "DELETE",
-
                 headers: {
                     Authorization: "Bearer " + token
                 }
@@ -172,29 +131,17 @@ async function deleteUser(id) {
         console.log("DELETE RESPONSE =", result);
 
         if (response.ok) {
-
             loadStats();
-
         } else {
-
             alert(result.message);
-
         }
-
     } catch (error) {
-
         console.error(error);
-
     }
-
 }
-
 function logout() {
-
     localStorage.removeItem("token");
-
     window.location.href = "index.html";
-
 }
 
 if (currentPage.includes("user")) {

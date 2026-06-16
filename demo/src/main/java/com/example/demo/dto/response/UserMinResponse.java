@@ -1,22 +1,22 @@
 package com.example.demo.dto.response;
 
-import com.example.demo.enumtype.Gender;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
-
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
+@NoArgsConstructor
+
+public class UserMinResponse {
     private Long id;
     private String name;
-    private int age;
-    private Gender gender;
+    private Integer age;
     private String email;
     private String phone;
-    private String password;
+    private String gender;
     private Set<String> roles;
 }

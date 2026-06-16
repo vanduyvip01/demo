@@ -7,12 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -61,5 +65,15 @@ public class GlobalExceptionHandler {
         } catch (NoSuchMessageException e) {
             return defaultMsg;
         }
+    }
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<?> handleAuthorizationDeniedException(AuthorizationDeniedException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("code", 40300);
+        body.put("error", "FORBIDDEN");
+        body.put("message", "Tai khoan ban khong phai admin, khong the truy cap");
+        body.put("data", null);
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(body);
     }
 }

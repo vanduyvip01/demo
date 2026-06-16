@@ -12,4 +12,8 @@ public interface ICourseService {
     CourseResponse getCourseById(Long id);
     CourseResponse updateCourse(Long id, CourseUpdateRequest request);
     void deleteCourse(Long id);
+    CourseResponse publishCourse(Long id);
+    CourseResponse unpublishCourse(Long id);
+    void enroll(Long courseId, String studentEmail);
+    List<CourseResponse> getCoursesByStudent(String studentEmail);
 }

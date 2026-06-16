@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.reponse.BaseResponse;
 import com.example.demo.dto.requests.CreateUserRequest;
 import com.example.demo.dto.requests.UpdateUserRequest;
+import com.example.demo.dto.response.UserMinResponse;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.ResponseUtils;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,18 +27,18 @@ public class UserController {
 
     private final UserService userService;
 
-    // GET ALL USERS
-    @GetMapping
-    public ResponseEntity<BaseResponse<List<User>>> getUsers() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(ResponseUtils.success(users));
-    }
+//    // GET ALL USERS
+//    @GetMapping
+//    public ResponseEntity<BaseResponse<List<User>>> getUsers() {
+//        List<User> users = userService.getAllUsers();
+//        return ResponseEntity.ok(ResponseUtils.success(users));
+//    }
 
     // GET USER DETAIL
 
     @GetMapping("/{id}")
-    public ResponseEntity<BaseResponse<User>> getUserDetail(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+    public ResponseEntity<?> getUserDetail(@PathVariable Long id) {
+        UserMinResponse user = userService.getUserById(id);
         return ResponseEntity.ok(ResponseUtils.success(user));
     }
 
@@ -61,16 +63,16 @@ public class UserController {
     // DELETE USER
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BaseResponse<Void>>
-    deleteUser(@PathVariable Long id) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.ok(ResponseUtils.success(null));
+        return ResponseEntity.ok(ResponseUtils.success("Xóa người dùng thành công!"));
     }
 
     // STATS
     @GetMapping("/stats")
-    public ResponseEntity<BaseResponse<Map<String,Object>>>
-    getStats() {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<BaseResponse<Map<String,Object>>> getStats() {
         Map<String,Object> stats = userService.getUserStats();
         return ResponseEntity.ok(ResponseUtils.success(stats));
     }

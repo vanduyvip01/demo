@@ -2,6 +2,7 @@ package com.example.demo.dto.requests;
 
 
 import com.example.demo.enumtype.Gender;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -25,7 +26,8 @@ public class CreateUserRequest {
     @Email(message = "EMAIL_INVALID")
     @NotBlank(message = "EMAIL_REQUIRED")
     private String email;
-
+    @Column(nullable = false)
+    private String password;
     @Pattern(
             regexp = "^0[0-9]{9}$",
             message = "PHONE_INVALID")

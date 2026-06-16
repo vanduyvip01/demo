@@ -29,15 +29,13 @@ public class LessonService {
     @Transactional
     public LessonResponse createLesson(Long courseId, LessonCreateRequest request) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new NotFoundException("Course not found"));
-
+                .orElseThrow(() -> new NotFoundException("Khong tim thay khoa hoc"));
         Lesson lesson = Lesson.builder()
                 .tittle(request.getTittle())
                 .content(request.getContent())
                 .position(request.getPosition())
                 .course(course)
                 .build();
-
         return mapToResponse(lessonRepository.save(lesson));
     }
 
@@ -59,7 +57,7 @@ public class LessonService {
     @Transactional
     public LessonResponse updateLesson(Long lessonId, LessonUpdateRequest request) {
         Lesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new NotFoundException("Lesson not found"));
+                .orElseThrow(() -> new NotFoundException("Khong tim thay bai hoc"));
         lesson.setTittle(request.getTittle());
         lesson.setContent(request.getContent());
         lesson.setPosition(request.getPosition());
@@ -69,7 +67,7 @@ public class LessonService {
     @Transactional
     public void deleteLesson(Long lessonId) {
         Lesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new NotFoundException("Lesson not found"));
+                .orElseThrow(() -> new NotFoundException("Khong tim thay bai hoc"));
         lessonRepository.delete(lesson);
     }
 
