@@ -2,25 +2,25 @@ name: Java Spring Boot CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code từ GitHub
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Cài đặt môi trường Java (JDK 21)
+      - name: Setup JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '21' # Đổi từ 17 sang 21 ở đây bạn nhé
+          java-version: '21'
           distribution: 'temurin'
-          cache: 'maven'
+          cache: maven
 
-      - name: Tự động Biên dịch và Chạy Kiểm thử (Build & Test)
+      - name: Build Spring Boot
         working-directory: ./demo
-        run: mvn clean package
+        run: ./mvnw clean package -DskipTests

@@ -1,5 +1,5 @@
 server:
-  port 8080
+  port: 8080
 spring:
   application:
     name:
@@ -22,9 +22,7 @@ eureka:
 
     service-url:
 
-      defaultZone:
-
-        http://localhost:8761/eureka
+      defaultZone: http://localhost:8761/eureka
       server:
         servlet:
           encoding:
