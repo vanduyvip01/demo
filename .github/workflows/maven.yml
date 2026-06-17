@@ -1,26 +1,46 @@
-name: Java Spring Boot CI
+name: Java Spring Boot CI/CD (Docker Hub)
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code từ GitHub
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v4
+      - name: Cài đặt môi trường Java (JDK 21)
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
+          cache: 'maven'
 
-      - name: Grant execute permission
+      - name: Tự động Biên dịch và Đóng gói file JAR
         working-directory: ./demo
-        run: chmod +x mvnw
+        run: mvn clean package -DskipTests # -DskipTests để bỏ qua test chạy nhanh hơn nếu muốn, hoặc xóa đi nếu muốn chạy cả test
 
-      - name: Build
-        working-directory: ./demo
-        run: mvn clean package -DskipTests
+      # --- BẮT ĐẦU CÁC BƯỚC ĐÓNG GÓI DOCKER ---
+
+      - name: Đăng nhập vào Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: duyvip
+          password: dckr_pat_4pwiyj-t9YNLFKfj9OYW49LqB_s
+
+      - name: Thiết lập Docker Buildx (Công cụ build ảnh nâng cao)
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build và Push Image lên Docker Hub
+        uses: docker/build-push-action@v5
+        with:
+          context: ./demo
+          push: true
+          tags: |
+            duyvip/demo-springboot:latest
+            duyvip/demo-springboot:${{ github.sha }}
