@@ -120,7 +120,7 @@ trap {
   }
 }
 
-New-Item -Itemtype Directory -Path "$MAVEN_HOME_PARENT" -Force | Out-Null
+New-Item -Itemtype Directory -Path "$MAVEN_HOME_PARENT" -For ce | Out-Null
 
 # Download and Install Apache Maven
 Write-Verbose "Couldn't find MAVEN_HOME, downloading and installing it ..."
