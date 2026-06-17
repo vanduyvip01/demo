@@ -1,0 +1,82 @@
+<!-- user.html -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+
+
+    <link rel="stylesheet" href="user.css">
+
+
+</head>
+<body>
+
+<div class="login-container">
+
+
+    <h1>User List</h1>
+
+    <h2>
+        Total Users:
+        <span id="totalUsers">0</span>
+    </h2>
+
+    <div class="form-group">
+
+        <input
+                type="text"
+                id="name"
+                placeholder="Name"
+        >
+
+        <input
+                type="number"
+                id="age"
+                placeholder="Age"
+        >
+
+        <input
+                type="email"
+                id="email"
+                placeholder="Email"
+        >
+
+        <input
+                type="text"
+                id="phone"
+                placeholder="Phone"
+        >
+
+        <button
+                class="add-btn"
+                onclick="addUser()"
+        >
+            Add User
+        </button>
+
+    </div>
+
+    <hr>
+
+    <div id="userList"></div>
+
+    <br>
+
+    <button
+            class="logout-btn"
+            onclick="logout()"
+    >
+        Logout
+    </button>
+
+
+</div>
+
+<script src="user.js"></script>
+
+</body>
+</html>
