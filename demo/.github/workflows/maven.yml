@@ -1,0 +1,25 @@
+name: Java Spring Boot CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code từ GitHub
+        uses: actions/checkout@v4
+
+      - name: Cài đặt môi trường Java (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17' # Nếu dự án của bạn dùng Java 11 hoặc 21 thì sửa số này lại nhé
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Tự động Biên dịch và Chạy Kiểm thử (Build & Test)
+        run: ./mvnw clean package
