@@ -1,31 +1,26 @@
-server:
-  port: 8080
-spring:
-  application:
-    name:
-      USER-SERVICE
-  datasource:
-    url: jdbc:mysql://localhost:3306/testdb
-    username: root
-    password: duy190205
-    driver-class-name: com.mysql.cj.jdbc.Driver
+name: Java Spring Boot CI
 
-  jpa:
-    hibernate:
-      ddl-auto: update
+on:
+  push:
+    branches: ["main"]
 
-    show-sql: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-eureka:
+    steps:
+      - uses: actions/checkout@v4
 
-  client:
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
 
-    service-url:
+      - name: Grant execute permission
+        working-directory: ./demo
+        run: chmod +x mvnw
 
-      defaultZone: http://localhost:8761/eureka
-      server:
-        servlet:
-          encoding:
-            charset: UTF-8
-            enabled: true
-            force: true
+      - name: Build
+        working-directory: ./demo
+        run: mvn clean package -DskipTests
