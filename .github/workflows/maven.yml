@@ -30,8 +30,8 @@ jobs:
       - name: Đăng nhập vào Docker Hub
         uses: docker/login-action@v3
         with:
-              username: ${{ secrets.DOCKER_USERNAME }}
-              password: ${{ secrets.DOCKER_PASSWORD }}
+              username: duyvip
+              password: dckr_pat_4pwiyj-t9YNLFKfj9OYW49LqB_s
 
       - name: Thiết lập Docker Buildx (Công cụ build ảnh nâng cao)
         uses: docker/setup-buildx-action@v3
